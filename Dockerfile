@@ -4,6 +4,6 @@ WORKDIR /var/tmp
 COPY . udp-server
 RUN cd udp-server && cargo build --release && cp ./target/release/udp-server /opt/udp-server
 RUN rm -rf udp-server
-EXPOSE 6001
+EXPOSE 6001/udp
 
 CMD ["/opt/udp-server"]
