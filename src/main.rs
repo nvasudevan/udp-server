@@ -24,7 +24,7 @@ impl fmt::Display for AppMetric {
 
 /// message format: app_env=val;app_version=x.y
 fn process_msg(s: &str, src_addr: &SocketAddr) -> Option<AppMetric> {
-    let key_values: Vec<&str> = s.split(";").collect();
+    let key_values: Vec<&str> = s.trim_end().split(";").collect();
     let app_env_k_v: Vec<&str> = key_values[0].split("=").collect();
     let app_version_k_v: Vec<&str> = key_values[1].split("=").collect();
     let app_env_key = app_env_k_v.get(0)?;
