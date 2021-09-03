@@ -47,11 +47,10 @@ fn process_msg(s: &str, src_addr: &SocketAddr) -> Option<AppMetric> {
 
 #[tokio::main]
 async fn main() -> io::Result<()> {
-    let listen_port = env::var("udp_port")
-        .expect("please set udp_port environment variable to listen on");
-    let listen_addr = format!("0.0.0.0:{}", listen_port);
-    println!("=> UDP server starting on {}", listen_addr);
-    let skt = UdpSocket::bind(listen_addr).await?;
+    let bind_addr = env::var("BIND_ADDR")
+        .expect("BIND_ADDR environment variable is not set!");
+    println!("=> UDP server starting on {}", bind_addr);
+    let skt = UdpSocket::bind(bind_addr).await?;
     let mut metrics: Vec<AppMetric> = vec![];
 
     loop {
@@ -66,7 +65,7 @@ async fn main() -> io::Result<()> {
                 eprintln!(" [c]");
             }
             Err(e) => {
-                eprintln!("[error] failed to read from remote client : {}", e.to_string());
+                eprintln!("[error] read failed from client : {}", e.to_string());
             }
         }
     }
